@@ -1,0 +1,2 @@
+Le joueur 1 choisi un nombre entre 1 et une limite à décider.
+Le joueur 2 doit deviner ce nombre : à chacune de ses propositions, le joueur1 répond "trop petit", "trop grand", ou "c'est gagné".

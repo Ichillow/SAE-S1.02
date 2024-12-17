@@ -1,0 +1,2 @@
+Chaque joueur pose sa marque (un O ou une X) à tour de rôle dans les cases d’une grille de 3x3.
+Le premier qui aligne 3 marque a gagné.

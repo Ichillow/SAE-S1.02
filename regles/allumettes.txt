@@ -1,0 +1,3 @@
+On dispose d’un tas de 20 allumettes.
+Chaque joueur à tour de rôle peut en prélever 1, 2 ou 3.
+Le perdant est celui qui prend la dernière allumette.
