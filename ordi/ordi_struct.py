@@ -1,4 +1,4 @@
-class OrdiMorpion:
+class OrdiMorpion :
     nom: str
     score: float = 0
     nbCoups: int = 0

@@ -1,28 +1,5 @@
-import sqlite3
-
-# Créer ou ouvrir une base de données nommée 'database.db'
-conn = sqlite3.connect('scores.db')
-
-# Créer un curseur pour exécuter des commandes SQL
-cursor = conn.cursor()
-
-# Exemple : créer une table
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS joueur (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom TEXT NOT NULL,
-    score_allumettes INTEGER NOT NULL,
-    score_morpion INTEGER NOT NULL,
-    score_devinettes INTEGER NOT NULL,
-    nb_parties INTEGER NOT NULL
-)
-''')
-
-# Valider les modifications
-conn.commit()
-
-# Fermer la connexion
-conn.close()
+import sqlite3, os
+from typing import Optional
 
 
 
@@ -33,8 +10,14 @@ def connection() -> tuple[sqlite3.Connection, sqlite3.Cursor]:
     Returns:
         (sqlite3.Connection, sqlite3.Cursor): Retourne la connexion et le curseur.
     """
+
+    #Déclaration des variables
+    conn: sqlite3.Connection
+    cursor: sqlite3.Cursor
+    chemin_db: str = os.getcwd() + '/scores/scores.db'
+
     # Créer ou ouvrir une base de données nommée 'database.db'
-    conn = sqlite3.connect('scores.db')
+    conn = sqlite3.connect(chemin_db)
 
     # Créer un curseur pour exécuter des commandes SQL
     cursor = conn.cursor()
@@ -59,30 +42,70 @@ def deconnection(conn: sqlite3.Connection) -> None:
     conn.close()
 
 
+def create_table() -> None:
 
-
-def sauvegarde_score_joueur(nom: str, score_allumettes: int, score_morpion: int, score_devinettes: int, nb_parties: int) -> None:
-    """
-    Procédure pour sauvegarder le score d'un joueur dans la base de données.
-
-    Args:
-        nom (str): Nom du joueur.
-        score_allumettes (int): Score du joueur au jeu des allumettes.
-        score_morpion (int): Score du joueur au jeu du morpion.
-        score_devinettes (int): Score du joueur au jeu des devinettes.
-        nb_parties (int): Nombre de parties jouées par le joueur.
-
-    Returns:
-        (None): Ne retourne rien.
-    """
-    # Connexion à la base de données
     conn, cursor = connection()
 
-    # Exemple : insérer une ligne
-    cursor.execute('''
-    INSERT INTO joueur (nom, score_allumettes, score_morpion, score_devinettes, nb_parties)
-    VALUES (?, ?, ?, ?, ?)
-    ''', (nom, score_allumettes, score_morpion, score_devinettes, nb_parties))
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS joueur (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nom TEXT NOT NULL,
+        score_allumettes INTEGER NOT NULL,
+        score_morpion INTEGER NOT NULL,
+        score_devinettes INTEGER NOT NULL,
+        nb_parties INTEGER NOT NULL
+    )
+    """)
 
-    # Déconnexion de la base de données
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS ordi_allumette (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nom TEXT NOT NULL,
+            score INTEGER NOT NULL,
+            nb_parties INTEGER NOT NULL
+    )
+    """)
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS ordi_morpion (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nom TEXT NOT NULL,
+            score INTEGER NOT NULL,
+            nb_parties INTEGER NOT NULL
+    )
+    """)
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS ordi_devinette (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nom TEXT NOT NULL,
+            score INTEGER NOT NULL,
+            nb_parties INTEGER NOT NULL
+    )
+    """)
+
+
+    cursor.execute("INSERT INTO ordi_allumette (nom, score, nb_parties) VALUES ('Toby', 0, 0);")
+    cursor.execute("INSERT INTO ordi_allumette (nom, score, nb_parties) VALUES ('Tim', 0, 0);")
+    cursor.execute("INSERT INTO ordi_allumette (nom, score, nb_parties) VALUES ('Lakia', 0, 0);")
+    cursor.execute("INSERT INTO ordi_allumette (nom, score, nb_parties) VALUES ('Dixie', 0, 0);")
+    cursor.execute("INSERT INTO ordi_allumette (nom, score, nb_parties) VALUES ('Patrick', 0, 0);")
+    cursor.execute("INSERT INTO ordi_allumette (nom, score, nb_parties) VALUES ('Charles', 0, 0);")
+
+    cursor.execute("INSERT INTO ordi_morpion (nom, score, nb_parties) VALUES ('Waldo', 0, 0);")
+    cursor.execute("INSERT INTO ordi_morpion (nom, score, nb_parties) VALUES ('Frasier', 0, 0);")
+    cursor.execute("INSERT INTO ordi_morpion (nom, score, nb_parties) VALUES ('Jefferson', 0, 0);")
+    cursor.execute("INSERT INTO ordi_morpion (nom, score, nb_parties) VALUES ('Corby', 0, 0);")
+    cursor.execute("INSERT INTO ordi_morpion (nom, score, nb_parties) VALUES ('Rex', 0, 0);")
+    cursor.execute("INSERT INTO ordi_morpion (nom, score, nb_parties) VALUES ('Baba', 0, 0);")
+
+    cursor.execute("INSERT INTO ordi_devinette (nom, score, nb_parties) VALUES ('Jacob', 0, 0);")
+    cursor.execute("INSERT INTO ordi_devinette (nom, score, nb_parties) VALUES ('Linda', 0, 0);")
+    cursor.execute("INSERT INTO ordi_devinette (nom, score, nb_parties) VALUES ('Louis', 0, 0);")
+    cursor.execute("INSERT INTO ordi_devinette (nom, score, nb_parties) VALUES ('Joel', 0, 0);")
+    cursor.execute("INSERT INTO ordi_devinette (nom, score, nb_parties) VALUES ('William', 0, 0);")
+    cursor.execute("INSERT INTO ordi_devinette (nom, score, nb_parties) VALUES ('Ernestine', 0, 0);")
+
+
+    conn.commit()
+
+
     deconnection(conn)
