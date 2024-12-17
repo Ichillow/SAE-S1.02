@@ -177,7 +177,7 @@ def affichage_score(jeu: str):
 
 #Fonction pour affiché les règles d'un jeu
 
-def affichage_relges(jeu: str):
+def affichage_regles(jeu: str):
     """
     Affiche les règles d'un jeu en particulier
 
@@ -213,3 +213,66 @@ def affichage_relges(jeu: str):
     print()
     print("Appuyez sur Entrée pour continuer", end="")
     input() #Pause pour laisser le temps à l'utilisateur de lire les règles
+
+
+def menu_selection_mdj() -> int:
+    """
+    Affiche le menu pour choisir le mode de jeu et renvoie le choix fait par l'utilisateur.
+    
+    Args:
+        (None): Aucun argument n'est nécessaire pour cette preocédure.
+
+    Returns:
+        choix (int): Le choix de l'utilisateur.
+
+    """
+    #Déclaration des variables
+    choix: int
+    
+    print()
+    print("/-----------------------------------------------------------\\")
+    print("                   Bienvenu dans le jeu")
+    print()
+    print("Veuillez faire un choix :")
+    print()
+    print("1. Joueur contre Joueur")
+    print("2. Joueur contre Ordinateur")
+    print("3. Ordinateur contre Ordinateur")
+    print()
+    print("\\-----------------------------------------------------------/")
+    print()
+    #Récupération du choix de l'utilisateur
+    choix = input_entier(1, 3, "Votre choix : ", "Veuillez choisir l'un des choix possibles")
+
+    return choix
+
+
+def menu_selection_difficulte() -> int:
+    """
+    Affiche le menu pour choisir la difficulté et renvoie le choix fait par l'utilisateur. 
+
+    Args:
+        (None): Aucun argument n'est nécessaire pour cette procédure.
+    
+    Returns:
+        choix (int): Le choix de l'utilisateur.
+    """
+    #Déclaration des variables
+    choix: int
+    
+    print()
+    print("/-----------------------------------------------------------\\")
+    print("                   Bienvenu dans le jeu")
+    print()
+    print("Veuillez faire un choix :")
+    print()
+    print("1. Facile")
+    print("2. Moyen")
+    print("3. Difficile")
+    print()
+    print("\\-----------------------------------------------------------/")
+    print()
+    #Récupération du choix de l'utilisateur
+    choix = input_entier(1, 3, "Votre choix : ", "Veuillez choisir l'un des choix possibles")
+
+    return choix

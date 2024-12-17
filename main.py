@@ -7,7 +7,7 @@ from jeux.morpion import morpion
 from jeux.devinette import devinette
 
 from utilitaires.utils import clear_console
-from menus.menus import menu_principale, menu_score, menu_regle, affichage_score, affichage_relges
+from menus.menus import menu_principale, menu_score, menu_regle, affichage_score, affichage_regles
 
 
 #La fonction rejouer permet de demander à l'utilisateur s'il veut rejouer
@@ -78,11 +78,11 @@ if __name__ == "__main__":
                 while boucle_de_jeu:
                     match menu_regle():
                         case 1:
-                            affichage_relges("devinettes")
+                            affichage_regles("devinettes")
                         case 2:
-                            affichage_relges("allumettes")
+                            affichage_regles("allumettes")
                         case 3:
-                            affichage_relges("morpion")
+                            affichage_regles("morpion")
                         case 4:
                             boucle_de_jeu = False
                         case _:

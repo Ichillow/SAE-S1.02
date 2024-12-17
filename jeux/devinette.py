@@ -186,7 +186,7 @@ def rappel (limite:int, proposition:int)  ->None:
 
 
 #calculs des scores
-def Calcul_scoreJ1(coups:int,nbtriche:int, limite) ->int :
+def Calcul_scoreJ1(coups:int,nbtriche:int, limite:int) ->int :
     """
     Cette fonction permet de calculer le score du joueur 1
     
