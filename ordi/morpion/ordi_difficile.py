@@ -17,5 +17,3 @@ def ordi_morpion_facile(ordi: OrdiMorpion, grille: list) -> list:
     Returns:
         grille (list): La grille de jeu après le tour de jeu.
     """
-
-    random.rand
