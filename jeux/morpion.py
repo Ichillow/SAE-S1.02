@@ -5,7 +5,8 @@
 #Importation des fonctions
 import sys
 sys.path.append("./")
-from utilitaires.utils import input_entier, login_joueur, clear_console, input_choix, sauvegarde_score_joueur
+from utilitaires.utils import input_entier, login_joueur, clear_console, input_choix
+from utilitaires.gestion_db import sauvegarde_score_joueur
 
 #Structure du joueur
 class Joueur:

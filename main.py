@@ -1,6 +1,18 @@
 #Importation des modules
-import sys, os
+import sys
 sys.path.append("./")
+
+#Téléchargement des modules non installés
+try:
+    from colorama import init
+except ImportError:
+    print("Module de couleur non installé, installation...")
+    import os
+    os.system("pip install colorama")
+    from colorama import init
+
+#Initialisation de colorama
+init()
 
 from jeux.allumettes import allumettes
 from jeux.morpion import morpion

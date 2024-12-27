@@ -1,6 +1,8 @@
 import sys, os
 sys.path.append("./")
-from utilitaires.utils import input_entier, login_joueur, clear_console, charger_score, tri_dict_insertion
+from utilitaires.utils import input_entier, clear_console
+from utilitaires.gestion_db import charger_joueurs_jeu, charger_ordi_jeu
+from colorama import Fore, Style
 
 #Menu des choix principaux
 
@@ -31,7 +33,7 @@ def menu_principale() -> int:
     print("4. Voir les scores")
     print("5. Voir les règles")
     print()
-    print("6. Quitter")
+    print(Fore.LIGHTBLACK_EX + "6. Quitter", Style.RESET_ALL)
     print("\\-----------------------------------------------------------/")
     print()
     #Récupération du choix de l'utilisateur
@@ -71,7 +73,7 @@ def menu_score() -> int:
     print("2. Scores Allumettes")
     print("3. Scores Morpion")
     print()
-    print("4. Retour au menu principal")
+    print(Fore.LIGHTBLACK_EX + "4. Retour au menu principal" + Style.RESET_ALL)
     print()
     print("\\------------------------------/")
     print()
@@ -113,7 +115,7 @@ def menu_regle() -> int:
     print("2. Règles Allumettes")
     print("3. Règles Morpion")
     print()
-    print("4. Retour au menu principal")
+    print(Fore.LIGHTBLACK_EX + "4. Retour au menu principal" + Style.RESET_ALL)
     print()
     print("\\------------------------------/")
     print()
@@ -140,37 +142,56 @@ def affichage_score(jeu: str):
         (None) : Ne retourne rien.
     """
     #Déclaration des variables
-    scores: dict
-    liste_affichage: list[str] = []
-    joueur: str
+    scoresJoueurs: list[tuple[int, str, int, int, int, int]] = []
+    scoreOrdis: list[tuple[int, str, int, int, int]]
     i: int
+    indexScoreJoueur: int
+    couleurs: list[str]
 
     #Charchement des scores
-    scores = charger_score(jeu)
+    scoresJoueurs = charger_joueurs_jeu(jeu)
+    scoreOrdis = charger_ordi_jeu(jeu)
 
-    #Tri pour l'affichage
-    scores = tri_dict_insertion(scores)
 
-    for joueur in scores:
-        liste_affichage.append(f"{joueur} : {scores[joueur][0]} points en {scores[joueur][1]} parties")
+    #Attribution de l'index du jeu
+    if jeu == "devinettes":
+        indexScoreJoueur = 2
+    elif jeu == "allumettes":
+        indexScoreJoueur = 3
+    else:
+        indexScoreJoueur = 4
+
+
+    #Attribution des couleurs
+    couleurs = [Fore.GREEN, Fore.BLUE, Fore.RED]
+    while len(couleurs) < len(scoresJoueurs):
+        couleurs.append(Fore.LIGHTBLACK_EX)
+
+
 
     #Affichage des scores
     clear_console()
-    if scores == {}:
-        print("Aucun score pour ce jeu")
-        print()
-    else:
-        print("/------------------------------\\")
-        print("Scores du jeu :", jeu)
-        print()
-        #Affichage dans l'odre décroissant
-        for i in range(len(liste_affichage)-1, -1, -1):
-            print(liste_affichage[i])
 
-        print()
-        print("\\------------------------------/")
-        print()
-    print("Appuyez sur Entrée pour continuer", end="")
+    print("/------------------------------\\")
+    print("Scores du jeu :", jeu)
+    print()
+
+    if len(scoresJoueurs) == 0:
+        print("Aucun score pour les joueurs")
+    else:
+        print("Scores des joueurs :")
+        for i in range(len(scoresJoueurs)):
+            print(f"{couleurs[i]}{i+1}. {scoresJoueurs[i][1]} : {scoresJoueurs[i][indexScoreJoueur]} points, {scoresJoueurs[i][5]} parties jouées" + Style.RESET_ALL)
+    
+    print()
+    print("Scores des ordinateurs :")
+    for i in range(len(scoreOrdis)):
+        print(f"{i+1}. {scoreOrdis[i][1]} : {scoreOrdis[i][3]} points, {scoreOrdis[i][4]} parties jouées")
+
+    print()
+    print("\\------------------------------/")
+    print()
+    print(Fore.LIGHTBLACK_EX + "Appuyez sur Entrée pour continuer" + Style.RESET_ALL, end="")
     input() #Pause pour laisser le temps à l'utilisateur de lire les scores
 
 
@@ -211,7 +232,7 @@ def affichage_regles(jeu: str):
         print(line)
     print("\\------------------------------/")
     print()
-    print("Appuyez sur Entrée pour continuer", end="")
+    print(Fore.LIGHTBLACK_EX + "Appuyez sur Entrée pour continuer" + Style.RESET_ALL, end="")
     input() #Pause pour laisser le temps à l'utilisateur de lire les règles
 
 
@@ -242,37 +263,10 @@ def menu_selection_mdj() -> int:
     print("\\-----------------------------------------------------------/")
     print()
     #Récupération du choix de l'utilisateur
-    choix = input_entier(1, 3, "Votre choix : ", "Veuillez choisir l'un des choix possibles")
+    choix = input_entier(1, 3, "Saisir le mode de jeu : ", "Veuillez saisir un mode de jeu valide : ")
 
     return choix
 
 
-def menu_selection_difficulte() -> int:
-    """
-    Affiche le menu pour choisir la difficulté et renvoie le choix fait par l'utilisateur. 
 
-    Args:
-        (None): Aucun argument n'est nécessaire pour cette procédure.
-    
-    Returns:
-        choix (int): Le choix de l'utilisateur.
-    """
-    #Déclaration des variables
-    choix: int
-    
-    print()
-    print("/-----------------------------------------------------------\\")
-    print("                   Bienvenu dans le jeu")
-    print()
-    print("Veuillez faire un choix :")
-    print()
-    print("1. Facile")
-    print("2. Moyen")
-    print("3. Difficile")
-    print()
-    print("\\-----------------------------------------------------------/")
-    print()
-    #Récupération du choix de l'utilisateur
-    choix = input_entier(1, 3, "Votre choix : ", "Veuillez choisir l'un des choix possibles")
-
-    return choix
+affichage_score("devinettes")
