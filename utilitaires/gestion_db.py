@@ -47,9 +47,9 @@ def create_table() -> None:
     CREATE TABLE IF NOT EXISTS joueur (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nom TEXT NOT NULL,
-        score_allumettes INTEGER NOT NULL,
-        score_morpion INTEGER NOT NULL,
-        score_devinettes INTEGER NOT NULL,
+        score_allumettes FLOAT NOT NULL,
+        score_morpion FLOAT NOT NULL,
+        score_devinettes FLOAT NOT NULL,
         nb_parties INTEGER NOT NULL
     )
     """)
@@ -59,7 +59,7 @@ def create_table() -> None:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nom TEXT NOT NULL,
             difficulte INTEGER NOT NULL,
-            score INTEGER NOT NULL,
+            score FLOAT NOT NULL,
             nb_parties INTEGER NOT NULL
     )
     """)
@@ -68,7 +68,7 @@ def create_table() -> None:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nom TEXT NOT NULL,
             difficulte INTEGER NOT NULL,
-            score INTEGER NOT NULL,
+            score FLOAT NOT NULL,
             nb_parties INTEGER NOT NULL
     )
     """)
@@ -77,7 +77,7 @@ def create_table() -> None:
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nom TEXT NOT NULL,
             difficulte INTEGER NOT NULL,
-            score INTEGER NOT NULL,
+            score FLOAT NOT NULL,
             nb_parties INTEGER NOT NULL
     )
     """)
@@ -304,7 +304,7 @@ def reset_db() -> None:
     conn, cursor = connection()
 
     #Réinitialisation des joueurs
-    cursor.execute("DELETE FROM joueur")
+    cursor.execute("DROP TABLE joueur")
 
     #Réinitialisation des ordinateurs
     cursor.execute("DROP TABLE ordi_allumettes")

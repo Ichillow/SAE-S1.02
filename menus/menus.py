@@ -44,7 +44,6 @@ def menu_principale() -> int:
 
 
 
-
 #Menu du choix des scores
 
 def menu_score() -> int:
@@ -147,6 +146,7 @@ def affichage_score(jeu: str):
     i: int
     indexScoreJoueur: int
     couleurs: list[str]
+    couleursOrdi: list[str]
 
     #Charchement des scores
     scoresJoueurs = charger_joueurs_jeu(jeu)
@@ -167,6 +167,12 @@ def affichage_score(jeu: str):
     while len(couleurs) < len(scoresJoueurs):
         couleurs.append(Fore.LIGHTBLACK_EX)
 
+    couleursOrdi = [Fore.GREEN, Fore.BLUE, Fore.RED]
+    while len(couleursOrdi) < len(scoreOrdis):
+        couleursOrdi.append(Fore.LIGHTBLACK_EX)
+
+
+
 
 
     #Affichage des scores
@@ -181,12 +187,12 @@ def affichage_score(jeu: str):
     else:
         print("Scores des joueurs :")
         for i in range(len(scoresJoueurs)):
-            print(f"{couleurs[i]}{i+1}. {scoresJoueurs[i][1]} : {scoresJoueurs[i][indexScoreJoueur]} points, {scoresJoueurs[i][5]} parties jouées" + Style.RESET_ALL)
+            print(f"{couleurs[i]}{i+1}. {scoresJoueurs[i][1]} : {scoresJoueurs[i][indexScoreJoueur]} points, {scoresJoueurs[i][5]} parties jouées au total" + Style.RESET_ALL)
     
     print()
     print("Scores des ordinateurs :")
     for i in range(len(scoreOrdis)):
-        print(f"{i+1}. {scoreOrdis[i][1]} : {scoreOrdis[i][3]} points, {scoreOrdis[i][4]} parties jouées")
+        print(f"{couleursOrdi[i]}{i+1}. {scoreOrdis[i][1]} : {scoreOrdis[i][2]} points, {scoreOrdis[i][3]} parties jouées au total" + Style.RESET_ALL)
 
     print()
     print("\\------------------------------/")
@@ -226,7 +232,7 @@ def affichage_regles(jeu: str):
     #Affichage des règles
     clear_console()
     print("/------------------------------\\")
-    print("Règles du jeu :", jeu)
+    print(Fore.BLUE + "Règles du jeu :", jeu + Style.RESET_ALL)
     print()
     for line in fichier:
         print(line)
@@ -236,37 +242,3 @@ def affichage_regles(jeu: str):
     input() #Pause pour laisser le temps à l'utilisateur de lire les règles
 
 
-def menu_selection_mdj() -> int:
-    """
-    Affiche le menu pour choisir le mode de jeu et renvoie le choix fait par l'utilisateur.
-    
-    Args:
-        (None): Aucun argument n'est nécessaire pour cette preocédure.
-
-    Returns:
-        choix (int): Le choix de l'utilisateur.
-
-    """
-    #Déclaration des variables
-    choix: int
-    
-    print()
-    print("/-----------------------------------------------------------\\")
-    print("                   Bienvenu dans le jeu")
-    print()
-    print("Veuillez faire un choix :")
-    print()
-    print("1. Joueur contre Joueur")
-    print("2. Joueur contre Ordinateur")
-    print("3. Ordinateur contre Ordinateur")
-    print()
-    print("\\-----------------------------------------------------------/")
-    print()
-    #Récupération du choix de l'utilisateur
-    choix = input_entier(1, 3, "Saisir le mode de jeu : ", "Veuillez saisir un mode de jeu valide : ")
-
-    return choix
-
-
-
-affichage_score("devinettes")

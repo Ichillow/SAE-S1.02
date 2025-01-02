@@ -3,12 +3,12 @@ sys.path.append("./")
 
 import random
 
-from ordi.ordi_struct import OrdiMorpion
+from ordi.ordi_struct import JoueurMorpion
 
 
-def ordi_morpion_facile(ordi: OrdiMorpion, grille: list[list[str]]) -> list[list[str]]:
+def ordi_morpion_facile(ordi: JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
     """
-    Cette fonction permet de jouer un tour de jeu pour l'ordinateur en mode facile.
+    Cette fonction permet de jouer un tour de jeu pour l'ordinateur en mode normal.
 
     Args:
         ordi (OrdiMorpion): L'ordinateur qui joue.

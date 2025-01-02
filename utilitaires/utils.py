@@ -4,27 +4,27 @@
 
 import sys
 sys.path.append("./")
+from typing import Union
 from utilitaires.gestion_db import charger_joueurs_jeu, charger_ordi_jeu
-
+from ordi.ordi_struct import Ordi
+from colorama import Fore, Style
 
 #Fonction pour demander le nom des joueurs
-def login_joueur(jeu: str) -> tuple[str, str, bool, bool]:
+def login_joueur(jeu: str) -> tuple[Union[str, Ordi], Union[str, Ordi]]:
     """
     Fonction pour demander le nom des joueurs (cela peut être des joueurs humains ou des ordinateurs)
     Args:
         (None) : Ne prend pas de paramètres.
 
     Returns:
-        (tuple[str, str, bool, bool]) : tuple contenant les noms des 2 joueurs, et 2 booléens pour savoir si ce sont des joueurs humains (True) ou des ordinateurs (False).
+        (tuple[Union[str, Ordi], Union[str, Ordi]) : Tuple contenant les noms des joueurs.
 
     """
     
     #Déclaration des variables
     mode_jeu: int
-    type_joueur1: bool
-    type_joueur2: bool
-    joueur1 : str
-    joueur2 : str
+    joueur1: Union[str, Ordi]
+    joueur2: Union[str, Ordi]
     boucle: bool = True
 
 
@@ -43,17 +43,6 @@ def login_joueur(jeu: str) -> tuple[str, str, bool, bool]:
     print()
 
     mode_jeu = input_entier(1, 3, "Saisir le numéro du mode de jeu : ", "Veuillez saisir un numéro valide : ")
-    
-    #Définition des types de joueurs
-    if mode_jeu == 1:
-        type_joueur1 = True
-        type_joueur2 = True
-    elif mode_jeu == 2:
-        type_joueur1 = True
-        type_joueur2 = False
-    else:
-        type_joueur1 = False
-        type_joueur2 = False
 
     clear_console()
 
@@ -81,6 +70,7 @@ def login_joueur(jeu: str) -> tuple[str, str, bool, bool]:
             print()
             joueur1 = saisie_nom_joueur(jeu)
             joueur2 = saisie_nom_ordi(jeu)
+
             boucle = False
 
         else:
@@ -90,13 +80,14 @@ def login_joueur(jeu: str) -> tuple[str, str, bool, bool]:
             print()
             joueur1 = saisie_nom_ordi(jeu)
             joueur2 = saisie_nom_ordi(jeu)
+
             if joueur1 == joueur2:
                 clear_console()
                 print("Erreur : un ordinateur ne peux pas jouer contre lui-même.")
             else:
                 boucle = False
 
-    return joueur1, joueur2, type_joueur1, type_joueur2
+    return joueur1, joueur2
 
 
 
@@ -148,7 +139,7 @@ def saisie_nom_joueur(jeu: str) -> str:
     return nom_joueur
 
 
-def saisie_nom_ordi(jeu: str) -> str:
+def saisie_nom_ordi(jeu: str) -> Ordi:
     """
     Fonction pour demander le nom d'un ordinateur
     Args:
@@ -161,18 +152,30 @@ def saisie_nom_ordi(jeu: str) -> str:
     #Déclaration des variables
     num_ordi: int
     ordis: list[tuple[int, str, int, int, int]] = charger_ordi_jeu(jeu)
+    couleurs: list[str]
+    ordi_return: Ordi = Ordi()
+
+    couleurs = [Fore.GREEN, Fore.YELLOW, Fore.RED]
 
     #Affichage des nom des ordinateurs
     print("Liste des ordinateurs : ")
     for ordi in ordis:
-        print(f"{ordi[0]}. {ordi[1]}, niveau : {ordi[2]}")
+        print(f"{couleurs[ordi[2]-1]}{ordi[0]}. {ordi[1]}, niveau : {ordi[2]}" + Style.RESET_ALL)
     print()
 
     #Saisie du nom de l'ordinateur
     num_ordi = int(input_choix([str(ordi[0]) for ordi in ordis], "Saisir le numéro de l'ordinateur : ", "Veuillez saisir un numéro valide : "))
 
+
+    #Attribution des valeurs à l'objet Ordi
+    ordi_return.id = ordis[num_ordi-1][0]
+    ordi_return.nom = ordis[num_ordi-1][1]
+    ordi_return.difficultee = ordis[num_ordi-1][2]
+    ordi_return.score = ordis[num_ordi-1][3]
+    ordi_return.nb_parties = ordis[num_ordi-1][4]
+
     print()
-    return ordis[num_ordi - 1][1]
+    return ordi_return
 
 
 
@@ -278,7 +281,3 @@ def input_choix(choix:list[str], message:str, erreur:str) -> str:
         print(erreur)
         input_ = input(message)
     return input_
-
-
-
-

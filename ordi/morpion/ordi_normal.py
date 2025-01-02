@@ -1,14 +1,14 @@
 import sys
 sys.path.append("./")
 
-import random
+from ordi.ordi_struct import JoueurMorpion
+from ordi.morpion.ordi_facile import ordi_morpion_facile
+from ordi.morpion.ordi_difficile import ordi_morpion_difficile
 
-from ordi.ordi_struct import OrdiMorpion
 
-
-def ordi_morpion_facile(ordi: OrdiMorpion, grille: list) -> list:
+def ordi_morpion_normal(ordi: JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
     """
-    Cette fonction permet de jouer un tour de jeu pour l'ordinateur en mode facile.
+    Cette fonction permet de jouer un tour de jeu pour l'ordinateur en mode normal.
 
     Args:
         ordi (OrdiMorpion): L'ordinateur qui joue.
@@ -18,4 +18,10 @@ def ordi_morpion_facile(ordi: OrdiMorpion, grille: list) -> list:
         grille (list): La grille de jeu après le tour de jeu.
     """
 
-    random.rand
+    #Un coup sur deux, l'ordinateur joue facile, sinon il joue difficile
+    if ordi.nbCoups % 2 == 0:
+        grille = ordi_morpion_facile(ordi, grille)
+    else:
+        grille = ordi_morpion_difficile(ordi, grille)
+    
+    return grille
