@@ -7,7 +7,6 @@ sys.path.append("./")
 from typing import Union
 from utilitaires.gestion_db import charger_joueurs_jeu, charger_ordi_jeu
 from ordi.ordi_struct import Ordi
-from colorama import Fore, Style
 
 #Fonction pour demander le nom des joueurs
 def login_joueur(jeu: str) -> tuple[Union[str, Ordi], Union[str, Ordi]]:
@@ -152,15 +151,12 @@ def saisie_nom_ordi(jeu: str) -> Ordi:
     #Déclaration des variables
     num_ordi: int
     ordis: list[tuple[int, str, int, int, int]] = charger_ordi_jeu(jeu)
-    couleurs: list[str]
     ordi_return: Ordi = Ordi()
-
-    couleurs = [Fore.GREEN, Fore.YELLOW, Fore.RED]
 
     #Affichage des nom des ordinateurs
     print("Liste des ordinateurs : ")
     for ordi in ordis:
-        print(f"{couleurs[ordi[2]-1]}{ordi[0]}. {ordi[1]}, niveau : {ordi[2]}" + Style.RESET_ALL)
+        print(f"{ordi[0]}. {ordi[1]}, niveau : {ordi[2]}")
     print()
 
     #Saisie du nom de l'ordinateur

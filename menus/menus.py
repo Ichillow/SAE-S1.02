@@ -2,7 +2,6 @@ import sys, os
 sys.path.append("./")
 from utilitaires.utils import input_entier, clear_console
 from utilitaires.gestion_db import charger_joueurs_jeu, charger_ordi_jeu
-from colorama import Fore, Style
 
 #Menu des choix principaux
 
@@ -33,7 +32,7 @@ def menu_principale() -> int:
     print("4. Voir les scores")
     print("5. Voir les règles")
     print()
-    print(Fore.LIGHTBLACK_EX + "6. Quitter", Style.RESET_ALL)
+    print("6. Quitter")
     print("\\-----------------------------------------------------------/")
     print()
     #Récupération du choix de l'utilisateur
@@ -72,7 +71,7 @@ def menu_score() -> int:
     print("2. Scores Allumettes")
     print("3. Scores Morpion")
     print()
-    print(Fore.LIGHTBLACK_EX + "4. Retour au menu principal" + Style.RESET_ALL)
+    print("4. Retour au menu principal")
     print()
     print("\\------------------------------/")
     print()
@@ -114,7 +113,7 @@ def menu_regle() -> int:
     print("2. Règles Allumettes")
     print("3. Règles Morpion")
     print()
-    print(Fore.LIGHTBLACK_EX + "4. Retour au menu principal" + Style.RESET_ALL)
+    print("4. Retour au menu principal")
     print()
     print("\\------------------------------/")
     print()
@@ -145,8 +144,6 @@ def affichage_score(jeu: str):
     scoreOrdis: list[tuple[int, str, int, int, int]]
     i: int
     indexScoreJoueur: int
-    couleurs: list[str]
-    couleursOrdi: list[str]
 
     #Charchement des scores
     scoresJoueurs = charger_joueurs_jeu(jeu)
@@ -160,16 +157,6 @@ def affichage_score(jeu: str):
         indexScoreJoueur = 3
     else:
         indexScoreJoueur = 4
-
-
-    #Attribution des couleurs
-    couleurs = [Fore.GREEN, Fore.BLUE, Fore.RED]
-    while len(couleurs) < len(scoresJoueurs):
-        couleurs.append(Fore.LIGHTBLACK_EX)
-
-    couleursOrdi = [Fore.GREEN, Fore.BLUE, Fore.RED]
-    while len(couleursOrdi) < len(scoreOrdis):
-        couleursOrdi.append(Fore.LIGHTBLACK_EX)
 
 
 
@@ -187,17 +174,17 @@ def affichage_score(jeu: str):
     else:
         print("Scores des joueurs :")
         for i in range(len(scoresJoueurs)):
-            print(f"{couleurs[i]}{i+1}. {scoresJoueurs[i][1]} : {scoresJoueurs[i][indexScoreJoueur]} points, {scoresJoueurs[i][5]} parties jouées au total" + Style.RESET_ALL)
+            print(f"{i+1}. {scoresJoueurs[i][1]} : {scoresJoueurs[i][indexScoreJoueur]} points, {scoresJoueurs[i][5]} parties jouées au total")
     
     print()
     print("Scores des ordinateurs :")
     for i in range(len(scoreOrdis)):
-        print(f"{couleursOrdi[i]}{i+1}. {scoreOrdis[i][1]} : {scoreOrdis[i][2]} points, {scoreOrdis[i][3]} parties jouées au total" + Style.RESET_ALL)
+        print(f"{i+1}. {scoreOrdis[i][1]} : {scoreOrdis[i][2]} points, {scoreOrdis[i][3]} parties jouées au total")
 
     print()
     print("\\------------------------------/")
     print()
-    print(Fore.LIGHTBLACK_EX + "Appuyez sur Entrée pour continuer" + Style.RESET_ALL, end="")
+    print("Appuyez sur Entrée pour continuer", end="")
     input() #Pause pour laisser le temps à l'utilisateur de lire les scores
 
 
@@ -232,13 +219,13 @@ def affichage_regles(jeu: str):
     #Affichage des règles
     clear_console()
     print("/------------------------------\\")
-    print(Fore.BLUE + "Règles du jeu :", jeu + Style.RESET_ALL)
+    print("Règles du jeu :", jeu)
     print()
     for line in fichier:
         print(line)
     print("\\------------------------------/")
     print()
-    print(Fore.LIGHTBLACK_EX + "Appuyez sur Entrée pour continuer" + Style.RESET_ALL, end="")
+    print("Appuyez sur Entrée pour continuer", end="")
     input() #Pause pour laisser le temps à l'utilisateur de lire les règles
 
 
