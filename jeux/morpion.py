@@ -42,13 +42,13 @@ def morpion() -> None:
         joueur1.nom = recupInfo[0]
     else:
         joueur1.nom = recupInfo[0].nom
-        joueur1.difficutee = recupInfo[0].difficultee
+        joueur1.difficultee = recupInfo[0].difficultee
 
     if isinstance(recupInfo[1], str):
         joueur2.nom = recupInfo[1]
     else:
         joueur2.nom = recupInfo[1].nom
-        joueur2.difficutee = recupInfo[1].difficultee
+        joueur2.difficultee = recupInfo[1].difficultee
 
 
     #Initialisation des variables
@@ -76,16 +76,16 @@ def morpion() -> None:
         dernierJoueur = joueur1.nom if (joueur1.nbCoups + joueur2.nbCoups) % 2 == 0 else joueur2.nom
 
         if dernierJoueur == joueur1.nom:
-            if joueur1.difficutee != -1:
+            if joueur1.difficultee != -1:
                 grille = tour(joueur1, grille)
             else:
-                grille = tour_ordi(joueur1, grille)
+                grille = tour_ordi(joueur1, grille, joueur2)
             joueur1.nbCoups += 1
         else:
-            if joueur2.difficutee != -1:
+            if joueur2.difficultee != -1:
                 grille = tour(joueur2, grille)
             else:
-                grille = tour_ordi(joueur2, grille)
+                grille = tour_ordi(joueur2, grille, joueur1)
             joueur2.nbCoups += 1
         
         boucle = verification_jeu_continue(grille)
@@ -95,7 +95,7 @@ def morpion() -> None:
     if not boucle:
         vainqueur = dernierJoueur
     else:
-        vainqueur = "Personne"
+        vainqueur = ""
 
 
     #Calcul du score
@@ -104,12 +104,12 @@ def morpion() -> None:
 
 
     #Sauvegarde du score
-    if joueur1.difficutee == -1:
+    if joueur1.difficultee == -1:
         sauvegarde_score_joueur("morpion", joueur1.nom, joueur1.score)
     else:
         sauvegarde_score_ordi("morpion", joueur1.nom, joueur1.score)
 
-    if joueur2.difficutee == -1:
+    if joueur2.difficultee == -1:
         sauvegarde_score_joueur("morpion", joueur2.nom, joueur2.score)
     else:
         sauvegarde_score_ordi("morpion", joueur2.nom, joueur2.score)
@@ -233,7 +233,7 @@ def tour(joueur:JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
 
 
 
-def tour_ordi(ordi:JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
+def tour_ordi(ordi: JoueurMorpion, grille: list[list[str]], joueur2: JoueurMorpion) -> list[list[str]]:
     """
     Cette fonction permet d'afficher le tour de l'ordinateur et le nombre d'allumettes restantes.
 
@@ -253,9 +253,9 @@ def tour_ordi(ordi:JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
     print()
 
     #Modification de la grille
-    if ordi.difficutee == 0:
+    if ordi.difficultee == 0:
         grille = ordi_morpion_facile(ordi, grille)
-    elif ordi.difficutee == 1:
+    elif ordi.difficultee == 1:
         grille = ordi_morpion_normal(ordi, grille)
     else:
         grille = ordi_morpion_difficile(ordi, grille)

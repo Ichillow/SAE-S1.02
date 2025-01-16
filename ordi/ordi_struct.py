@@ -13,7 +13,7 @@ class JoueurMorpion:
     score: float = 0
     nbCoups: int = 0
     signe: str = ""
-    difficutee: int = -1
+    difficultee: int = -1
 
 
 
