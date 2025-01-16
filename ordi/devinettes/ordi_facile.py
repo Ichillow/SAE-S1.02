@@ -1,9 +1,9 @@
-import sys
+import sys, random
 sys.path.append("./")
 
-from ordi.ordi_struct import OrdiDevinette1, OrdiDevinette2
+from ordi.ordi_struct import JoueursDevinette
 
-def ordi_cherche_devinettes_facile(ordi: OrdiDevinette1, limite: int, réponse: int) -> None:
+def ordi_cherche_facile(ordi: JoueursDevinette, limite: int, réponse: int, proposition : int) -> int:
     """
     Cette fonction permet de jouer au jeu de la devinette avec l'ordinateur en mode facile.
 
@@ -15,16 +15,25 @@ def ordi_cherche_devinettes_facile(ordi: OrdiDevinette1, limite: int, réponse: 
         (None): Cette fonction ne retourne rien.
     """
     #Déclaration des variables
-    proposition: int
-    gagne: bool
+    trop_grand: bool
+    trop_petit: bool
 
     #Initialisation des variables
-    gagne = False
+    trop_grand = False
+    trop_petit = False
 
-    #Début du jeu
-    while not gagne:
-        proposition = ordi.proposer_nombre(limite)
-        print(f"L'ordinateur propose : {proposition}")
-        gagne = ordi.verifier_nombre(proposition)
+    if réponse == 0:
+        proposition = random.randint(1, limite)
+    elif réponse == 1 :
+        trop_petit = True
+    else:
+        trop_grand = True
 
-    return
+
+    if trop_petit :
+        proposition = random.randint(proposition, limite)
+    elif trop_grand :
+        proposition = random.randint(1, proposition)
+
+    return proposition
+
