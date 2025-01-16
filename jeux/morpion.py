@@ -65,33 +65,36 @@ def morpion() -> None:
 
     #Début du jeu
 
-
+    print(joueur2.difficultee)
     #Tant que la grille n'est pas pleine
     while (joueur1.nbCoups + joueur2.nbCoups) < 9 and boucle:
 
-        clear_console()
+
         print("/-----------------------------------------------------------\\")
         print("                      Jeu du morpion")
 
         dernierJoueur = joueur1.nom if (joueur1.nbCoups + joueur2.nbCoups) % 2 == 0 else joueur2.nom
 
         if dernierJoueur == joueur1.nom:
-            if joueur1.difficultee != -1:
+            if joueur1.difficultee == -1:
                 grille = tour(joueur1, grille)
             else:
-                grille = tour_ordi(joueur1, grille, joueur2)
+                grille = tour_ordi(joueur1, grille)
             joueur1.nbCoups += 1
         else:
-            if joueur2.difficultee != -1:
+            if joueur2.difficultee == -1:
                 grille = tour(joueur2, grille)
             else:
-                grille = tour_ordi(joueur2, grille, joueur1)
+                print("tour ordi")
+                grille = tour_ordi(joueur2, grille)
+                print("tour ordi fini")
             joueur2.nbCoups += 1
         
         boucle = verification_jeu_continue(grille)
 
 
     #Détermination du vainqueur
+    print(boucle)
     if not boucle:
         vainqueur = dernierJoueur
     else:
@@ -116,7 +119,6 @@ def morpion() -> None:
 
 
     #Fin du jeu
-    clear_console()
     affichage_grille(grille)
     print()
     print("/-----------------------------------------------------------\\")
@@ -219,12 +221,12 @@ def tour(joueur:JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
     print()
     print("Veuillez choisir une case")
     print()
-    ligne, colonne = input_entier(1, 3, "Veuillez choisir une ligne (1, 2, 3) : ", "Veuillez choisir une ligne (1, 2, 3) : "), input_entier(1, 3, "Veuillez choisir une colonne (1, 2, 3) : ", "Veuillez choisir une colonne (1, 2, 3) : ")
+    colonne, ligne = input_entier(1, 3, "Veuillez choisir une colonne (1, 2, 3) : ", "Veuillez choisir une colonne (1, 2, 3) : "), input_entier(1, 3, "Veuillez choisir une ligne (1, 2, 3) : ", "Veuillez choisir une ligne (1, 2, 3) : ")
 
     #Vérification de la case
     while grille[ligne-1][colonne-1] != " ":
         print("Case déjà occupée")
-        ligne, colonne = input_entier(1, 3, "Veuillez choisir une ligne (1, 2, 3) : ", "Veuillez choisir une ligne (1, 2, 3) : "), input_entier(1, 3, "Veuillez choisir une colonne (1, 2, 3) : ", "Veuillez choisir une colonne (1, 2, 3) : ")
+        colonne, ligne = input_entier(1, 3, "Veuillez choisir une colonne (1, 2, 3) : ", "Veuillez choisir une colonne (1, 2, 3) : "), input_entier(1, 3, "Veuillez choisir une ligne (1, 2, 3) : ", "Veuillez choisir une ligne (1, 2, 3) : ")
 
     #Modification de la grille
     grille[ligne-1][colonne-1] = joueur.signe
@@ -233,7 +235,7 @@ def tour(joueur:JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
 
 
 
-def tour_ordi(ordi: JoueurMorpion, grille: list[list[str]], joueur2: JoueurMorpion) -> list[list[str]]:
+def tour_ordi(ordi: JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
     """
     Cette fonction permet d'afficher le tour de l'ordinateur et le nombre d'allumettes restantes.
 
@@ -253,9 +255,9 @@ def tour_ordi(ordi: JoueurMorpion, grille: list[list[str]], joueur2: JoueurMorpi
     print()
 
     #Modification de la grille
-    if ordi.difficultee == 0:
+    if ordi.difficultee == 1:
         grille = ordi_morpion_facile(ordi, grille)
-    elif ordi.difficultee == 1:
+    elif ordi.difficultee == 2:
         grille = ordi_morpion_normal(ordi, grille)
     else:
         grille = ordi_morpion_difficile(ordi, grille)
@@ -303,3 +305,7 @@ def verification_jeu_continue(grille: list[list[str]]) -> bool:
         boucle = False
 
     return boucle
+
+
+
+morpion()
