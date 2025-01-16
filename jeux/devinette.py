@@ -5,8 +5,10 @@
 #Importation des fonctions
 import sys
 sys.path.append("./")
-from utilitaires.utils import input_entier, login_joueur, clear_console, sauvegarde_score_joueur
-
+from utilitaires.utils import input_entier, login_joueur, clear_console
+from utilitaires.gestion_db import sauvegarde_score_joueur, sauvegarde_score_ordi
+from typing import Union
+from ordi.ordi_struct import Ordi, JoueursDevinette
 
 
 def devinette() ->None:
@@ -22,8 +24,8 @@ def devinette() ->None:
     clear_console()
 
     #Déclaration des variables utilisées
-    joueur1 : str
-    joueur2 : str
+    joueur1: JoueursDevinette = JoueursDevinette()
+    joueur2: JoueursDevinette = JoueursDevinette()
 
     coup : int
     nombre : int
@@ -41,7 +43,7 @@ def devinette() ->None:
     tricheGagn : bool
 
     tourJ1 : bool
-
+    
     #Initialisation des variables
     gagné = False
     coup = 0    
@@ -49,7 +51,24 @@ def devinette() ->None:
     tricheGagn = False
     triche_detecte = False
     #Login des joueurs
-    joueur1, joueur2 = login_joueur()
+    recupInfo: tuple[Union[str, Ordi], Union[str, Ordi]]
+
+    #Récupération des informations des joueurs
+    recupInfo = login_joueur("devientte")
+
+
+    #Vérification du type de joueur et initialisation
+    if isinstance(recupInfo[0], str):
+        joueur1.nom = recupInfo[0]
+    else:
+        joueur1.nom = recupInfo[0].nom
+        joueur1.difficultee = recupInfo[0].difficultee
+
+    if isinstance(recupInfo[1], str):
+        joueur2.nom = recupInfo[1]
+    else:
+        joueur2.nom = recupInfo[1].nom
+        joueur2.difficultee = recupInfo[1].difficultee
 
     #Début du jeu
     limite = int(input("Joueur 1 entrez la limite maximum : "))
@@ -62,13 +81,12 @@ def devinette() ->None:
     #Affichage de la limite
     print(f"La limite est : {limite}")
 
-    #Tant que le joueur 2 n'a pas trouvé le nombre
+    #Tant que le joueur 2 n'a pas trouvé le nombre 
     while gagné == False :
 
         #Proposition du joueur 2
         proposition = input_entier(0, limite, f"{joueur2}, faites une proposition : ", "Erreur, le nombre rentré n'est pas compris dans la limite : ")
         coup = coup+1
-
 
         #Initialisation du tour du joueur 1
         tourJ1 = True
@@ -79,7 +97,7 @@ def devinette() ->None:
             print(f"Le nombre de {joueur2} est {proposition}")
 
             #Le joueur 1 donne sa réponse
-            choix=réponse(joueur1, joueur2)
+            choix=réponse(joueur1.nom, joueur2.nom)
             #Choix 1
             if choix == 1:
                 if nombre > proposition:
@@ -139,8 +157,14 @@ def devinette() ->None:
     print(f"{joueur2} : {scoreJ2} points")
 
     #Sauvegarde des scores
-    sauvegarde_score_joueur("devinettes", joueur1, scoreJ1)
-    sauvegarde_score_joueur("devinettes", joueur2, scoreJ2)
+    if joueur1.difficultee == -1 :
+        sauvegarde_score_joueur("devinettes", joueur1.nom, scoreJ1)
+    else:
+        sauvegarde_score_ordi("devinettes", joueur1.nom, scoreJ1)
+    if joueur2.difficultee == -1 :
+        sauvegarde_score_joueur("devinettes", joueur2.nom, scoreJ2)
+    else:
+        sauvegarde_score_ordi("devinettes", joueur2.nom, scoreJ2)
 
 
 
@@ -227,3 +251,4 @@ def Calcul_ScoreJ2(coups:int, limite:int) ->int :
     score = score + round(40/100*limite)
     score =  int(score * 1/coups)
     return score
+
