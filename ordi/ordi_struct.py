@@ -13,14 +13,10 @@ class JoueurMorpion:
     score: float = 0
     nbCoups: int = 0
     signe: str = ""
-<<<<<<< Updated upstream
     difficultee: int = -1
-=======
-    difficutee: int = -1
 
 
 #OrdiDevinette(Fait deviner)
 class JoueursDevinette:
     nom: str
     difficultee: int = -1
->>>>>>> Stashed changes

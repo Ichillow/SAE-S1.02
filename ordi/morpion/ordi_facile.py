@@ -21,17 +21,22 @@ def ordi_morpion_facile(ordi: JoueurMorpion, grille: list[list[str]]) -> list[li
     #Déclaration des variables
     choixLigne: int
     choixColonne: int
+    print("Test 1")
 
     #Choix aléatoire de la ligne et de la colonne
     choixLigne = random.randint(0, 2)
     choixColonne = random.randint(0, 2)
 
+    print("Test 2")
+
     #Vérification de la case choisie
     while grille[choixLigne][choixColonne] != " ":
+        print("Case déjà occupée")
         choixLigne = random.randint(0, 2)
         choixColonne = random.randint(0, 2)
     
     #Mise à jour de la grille
     grille[choixLigne][choixColonne] = ordi.signe
+    print(f"L'ordinateur a joué en {choixLigne+1}, {choixColonne+1}")
 
     return grille

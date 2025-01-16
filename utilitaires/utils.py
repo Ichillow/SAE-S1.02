@@ -162,13 +162,14 @@ def saisie_nom_ordi(jeu: str) -> Ordi:
     #Saisie du nom de l'ordinateur
     num_ordi = int(input_choix([str(ordi[0]) for ordi in ordis], "Saisir le numéro de l'ordinateur : ", "Veuillez saisir un numéro valide : "))
 
+    num_ordi -= 1
 
     #Attribution des valeurs à l'objet Ordi
-    ordi_return.id = ordis[num_ordi-1][0]
-    ordi_return.nom = ordis[num_ordi-1][1]
-    ordi_return.difficultee = ordis[num_ordi-1][2]
-    ordi_return.score = ordis[num_ordi-1][3]
-    ordi_return.nb_parties = ordis[num_ordi-1][4]
+    ordi_return.id = ordis[num_ordi][0]
+    ordi_return.nom = ordis[num_ordi][1]
+    ordi_return.difficultee = ordis[num_ordi][2]
+    ordi_return.score = ordis[num_ordi][3]
+    ordi_return.nb_parties = ordis[num_ordi][4]
 
     print()
     return ordi_return
@@ -273,7 +274,8 @@ def input_choix(choix:list[str], message:str, erreur:str) -> str:
 
     #Saisie de l'entrée utilisateur
     input_ = input(message).lower()
-    while input_ not in choix:
+    choix_ = [choix[i].lower() for i in range(len(choix))]
+    while input_ not in choix_:
         print(erreur)
         input_ = input(message)
     return input_
