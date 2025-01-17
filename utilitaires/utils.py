@@ -80,7 +80,7 @@ def login_joueur(jeu: str) -> tuple[Union[str, Ordi], Union[str, Ordi]]:
             joueur1 = saisie_nom_ordi(jeu)
             joueur2 = saisie_nom_ordi(jeu)
 
-            if joueur1 == joueur2:
+            if joueur1.nom == joueur2.nom:
                 clear_console()
                 print("Erreur : un ordinateur ne peux pas jouer contre lui-même.")
             else:
@@ -150,7 +150,7 @@ def saisie_nom_ordi(jeu: str) -> Ordi:
     """
     #Déclaration des variables
     num_ordi: int
-    ordis: list[tuple[int, str, int, int, int]] = charger_ordi_jeu(jeu)
+    ordis: list[tuple[int, str, int, int, int]] = charger_ordi_jeu(jeu, False)
     ordi_return: Ordi = Ordi()
 
     #Affichage des nom des ordinateurs

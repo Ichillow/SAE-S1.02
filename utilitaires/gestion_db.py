@@ -242,7 +242,7 @@ def charger_joueurs_jeu(jeu:str) -> list[tuple[int, str, int, int, int, int]]:
 
 
 #La fonction charger_score permet de charger les scores des ordinateurs dans la base de données, en fonction d'un jeu
-def charger_ordi_jeu(jeu:str) -> list[tuple[int, str, int, int, int]]:
+def charger_ordi_jeu(jeu:str, ordre:bool=True) -> list[tuple[int, str, int, int, int]]:
     """
     Fonction pour charger les scores des ordinateurs d'un jeu en particulier
 
@@ -257,6 +257,7 @@ def charger_ordi_jeu(jeu:str) -> list[tuple[int, str, int, int, int]]:
     conn: sqlite3.Connection
     cursor: sqlite3.Cursor
     scores: list[tuple[int, str, int, int, int]]
+    requete: str
 
     #Vérification de l'existence du jeu
     if jeu not in ["allumettes", "morpion", "devinettes"]:
@@ -265,8 +266,14 @@ def charger_ordi_jeu(jeu:str) -> list[tuple[int, str, int, int, int]]:
     #Connexion à la base de données
     conn, cursor = connection()
 
+    #Écriture de la requête
+    requete = f"SELECT * FROM ordi_{jeu}"
+
+    if ordre:
+        requete += " ORDER BY score DESC"
+
     #Chargement des scores
-    cursor.execute(f"SELECT * FROM ordi_{jeu} ORDER BY score DESC")
+    cursor.execute(requete)
     scores = cursor.fetchall()
 
     deconnection(conn)

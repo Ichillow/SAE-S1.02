@@ -6,7 +6,7 @@ from ordi.morpion.ordi_facile import ordi_morpion_facile
 from ordi.morpion.ordi_difficile import ordi_morpion_difficile
 
 
-def ordi_morpion_normal(ordi: JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
+def ordi_morpion_normal(ordi: JoueurMorpion, grille: list[list[str]], adversaire: JoueurMorpion) -> list[list[str]]:
     """
     Cette fonction permet de jouer un tour de jeu pour l'ordinateur en mode normal.
 
@@ -22,6 +22,6 @@ def ordi_morpion_normal(ordi: JoueurMorpion, grille: list[list[str]]) -> list[li
     if ordi.nbCoups % 2 == 0:
         grille = ordi_morpion_facile(ordi, grille)
     else:
-        grille = ordi_morpion_difficile(ordi, grille)
+        grille = ordi_morpion_difficile(ordi, grille, adversaire)
     
     return grille

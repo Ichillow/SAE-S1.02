@@ -60,16 +60,15 @@ def morpion() -> None:
 
     #Initialisation du jeu
 
-    joueur1.signe = input_choix(["X", "O"], f"Veuillez choisir un signe pour {joueur1.nom} (X, O) : ", f"Veuillez choisir un signe pour {joueur1.nom} (X, O) : ")
+    joueur1.signe = input_choix(["X", "O"], f"Veuillez choisir un signe pour {joueur1.nom} (X, O) : ", f"Veuillez choisir un signe pour {joueur1.nom} (X, O) : ").capitalize()
     joueur2.signe = "X" if joueur1.signe == "O" else "O"
 
     #Début du jeu
 
-    print(joueur2.difficultee)
     #Tant que la grille n'est pas pleine
     while (joueur1.nbCoups + joueur2.nbCoups) < 9 and boucle:
 
-
+        clear_console()
         print("/-----------------------------------------------------------\\")
         print("                      Jeu du morpion")
 
@@ -79,22 +78,19 @@ def morpion() -> None:
             if joueur1.difficultee == -1:
                 grille = tour(joueur1, grille)
             else:
-                grille = tour_ordi(joueur1, grille)
+                grille = tour_ordi(joueur1, grille, joueur2)
             joueur1.nbCoups += 1
         else:
             if joueur2.difficultee == -1:
                 grille = tour(joueur2, grille)
             else:
-                print("tour ordi")
-                grille = tour_ordi(joueur2, grille)
-                print("tour ordi fini")
+                grille = tour_ordi(joueur2, grille, joueur1)
             joueur2.nbCoups += 1
         
         boucle = verification_jeu_continue(grille)
 
 
     #Détermination du vainqueur
-    print(boucle)
     if not boucle:
         vainqueur = dernierJoueur
     else:
@@ -119,6 +115,7 @@ def morpion() -> None:
 
 
     #Fin du jeu
+    clear_console()
     affichage_grille(grille)
     print()
     print("/-----------------------------------------------------------\\")
@@ -160,8 +157,12 @@ def calcul_score(vainqueur: str, nomJoueur: str, nbrCoups: int) -> float:
     score: float = 0
 
 
+
     #Calcul du score
-    if vainqueur == nomJoueur:
+
+    if vainqueur == "":
+        score = 2.5*(5 - 1/5)
+    elif vainqueur == nomJoueur:
         score = 5*(nbrCoups - 1/nbrCoups)
     else:
         score = 2.5*(nbrCoups - 1/nbrCoups)
@@ -235,7 +236,7 @@ def tour(joueur:JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
 
 
 
-def tour_ordi(ordi: JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
+def tour_ordi(ordi: JoueurMorpion, grille: list[list[str]], adversaire: JoueurMorpion) -> list[list[str]]:
     """
     Cette fonction permet d'afficher le tour de l'ordinateur et le nombre d'allumettes restantes.
 
@@ -258,9 +259,9 @@ def tour_ordi(ordi: JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
     if ordi.difficultee == 1:
         grille = ordi_morpion_facile(ordi, grille)
     elif ordi.difficultee == 2:
-        grille = ordi_morpion_normal(ordi, grille)
+        grille = ordi_morpion_normal(ordi, grille, adversaire)
     else:
-        grille = ordi_morpion_difficile(ordi, grille)
+        grille = ordi_morpion_difficile(ordi, grille, adversaire)
 
     return grille
 
