@@ -50,11 +50,13 @@ def devinette() ->None:
     nbTriche = 0
     tricheGagn = False
     triche_detecte = False
+    choix = 0
+
     #Login des joueurs
     recupInfo: tuple[Union[str, Ordi], Union[str, Ordi]]
 
     #Récupération des informations des joueurs
-    recupInfo = login_joueur("devientte")
+    recupInfo = login_joueur("devinette")
 
 
     #Vérification du type de joueur et initialisation
@@ -69,6 +71,9 @@ def devinette() ->None:
     else:
         joueur2.nom = recupInfo[1].nom
         joueur2.difficultee = recupInfo[1].difficultee
+
+
+
 
     #Début du jeu
     limite = int(input("Joueur 1 entrez la limite maximum : "))
