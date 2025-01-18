@@ -5,14 +5,16 @@
 #Importation des fonctions
 import sys
 sys.path.append("./")
-from utilitaires.utils import input_entier, login_joueur, clear_console, sauvegarde_score_joueur
+from typing import Union
+from time import sleep
+from utilitaires.utils import input_entier, login_joueur, clear_console
+from utilitaires.gestion_db import sauvegarde_score_joueur, sauvegarde_score_ordi
+from ordi.ordi_struct import Ordi, JoueurAllumettes
+from ordi.allumettes.ordi_facile import ordi_allumettes_facile
+from ordi.allumettes.ordi_normal import ordi_allumettes_normal
+from ordi.allumettes.ordi_difficile import ordi_allumettes_difficile
 
-#Structure du joueur
-class Joueur:
-    nom: str
-    score: float = 0
-    nbAllumettes: int = 0
-    nbCoups: int = 0
+
 
 #Programme principal du jeu
 def allumettes() -> None:
@@ -27,14 +29,26 @@ def allumettes() -> None:
     """
     
     #Déclaration des variables à utilisé
+    joueur1: JoueurAllumettes = JoueurAllumettes()
+    joueur2: JoueurAllumettes = JoueurAllumettes()
 
-    joueur1: Joueur = Joueur()
-    joueur2: Joueur = Joueur()
+    recupInfo: tuple[Union[str, Ordi], Union[str, Ordi]]
 
-    nomJoueur1, nomJoueur2 = login_joueur()
+    #Récupération des informations des joueurs
+    recupInfo = login_joueur("allumettes")
 
-    joueur1.nom = nomJoueur1
-    joueur2.nom = nomJoueur2
+    #Vérification du type de joueur et initialisation
+    if isinstance(recupInfo[0], str):
+        joueur1.nom = recupInfo[0]
+    else:
+        joueur1.nom = recupInfo[0].nom
+        joueur1.difficultee = recupInfo[0].difficultee
+
+    if isinstance(recupInfo[1], str):
+        joueur2.nom = recupInfo[1]
+    else:
+        joueur2.nom = recupInfo[1].nom
+        joueur2.difficultee = recupInfo[1].difficultee
 
 
     nbrAllumettesDepart: int = 20
@@ -42,9 +56,6 @@ def allumettes() -> None:
 
     avantDernierJoueur: str = ""
     vainqueur: str = ""
-
-
-
 
 
     #Début du jeu
@@ -60,13 +71,19 @@ def allumettes() -> None:
         #Tour du joueur 1
         if nbrAllumettes > 0:
             avantDernierJoueur = joueur2.nom
-            nbrAllumettes -= tour(joueur1.nom, nbrAllumettes)
+            if joueur1.difficultee == -1:
+                nbrAllumettes -= tour(joueur1.nom, nbrAllumettes)
+            else:
+                nbrAllumettes -= tour_ordi(joueur1, nbrAllumettes)
             joueur1.nbCoups += 1
         
         #Tour du joueur 2
         if nbrAllumettes > 0:
             avantDernierJoueur = joueur1.nom
-            nbrAllumettes -= tour(joueur2.nom, nbrAllumettes)
+            if joueur2.difficultee == -1:
+                nbrAllumettes -= tour(joueur2.nom, nbrAllumettes)
+            else:
+                nbrAllumettes -= tour_ordi(joueur2, nbrAllumettes)
             joueur2.nbCoups += 1
 
         if nbrAllumettes == 0:
@@ -88,7 +105,7 @@ def allumettes() -> None:
     print("/-----------------------------------------------------------\\")
     print("                        Fin du jeu")
     print()
-    if vainqueur == nomJoueur1:
+    if vainqueur == joueur1.nom:
         print(f"Bravo {joueur1.nom} vous avez gagné en {joueur1.nbCoups} coups.")
         print(f"{joueur2.nom} vous avez perdu en {joueur2.nbCoups} coups.")
     else:
@@ -101,8 +118,15 @@ def allumettes() -> None:
     print("\\-----------------------------------------------------------/")
 
     #Sauvegarde des scores
-    sauvegarde_score_joueur("allumettes", joueur1.nom, joueur1.score)
-    sauvegarde_score_joueur("allumettes", joueur2.nom, joueur2.score)
+    if joueur1.difficultee == -1:
+        sauvegarde_score_joueur("allumettes", joueur1.nom, joueur1.score)
+    else:
+        sauvegarde_score_ordi("allumettes", joueur1.nom, joueur1.score)
+    
+    if joueur2.difficultee == -1:
+        sauvegarde_score_joueur("allumettes", joueur2.nom, joueur2.score)
+    else:
+        sauvegarde_score_ordi("allumettes", joueur2.nom, joueur2.score)
 
 
 
@@ -161,3 +185,36 @@ def tour(joueur:str, nbrAllumettes:int) -> int:
     nbrAllumettesRetirees = input_entier(1, limite_allumettes, f"Combien d'allumettes voulez-vous retirer, 1, 2 ou {limite_allumettes} : ", f"Veillez saisir un nombre entre 1 et {limite_allumettes}.")
 
     return nbrAllumettesRetirees
+
+
+
+def tour_ordi(joueur:JoueurAllumettes, nbrAllumettes:int) -> int:
+    """
+    Cette fonction permet d'afficher le tour de l'ordinateur et le nombre d'allumettes restantes.
+
+    Args:
+        joueur (JoueurAllumettes): Le joueur qui joue.
+        nbrAllumettes (int): Le nombre d'allumettes restantes.
+
+    Returns:
+        (int): Le nombre d'allumettes retirées par l'ordinateur
+    """
+
+    #Déclaration des variables
+    choix: int = 0
+
+    print()
+    print(f"{joueur.nom} c'est à votre tour.")
+    print(f"Il reste {nbrAllumettes} allumettes.")
+    print("L'ordinateur réfléchit...")
+    sleep(2)
+    if joueur.difficultee == 1:
+        choix = ordi_allumettes_facile(nbrAllumettes)
+    elif joueur.difficultee == 2:
+        choix = ordi_allumettes_normal(joueur, nbrAllumettes)
+    else:
+        choix = ordi_allumettes_difficile(nbrAllumettes)
+
+    return choix
+
+allumettes()

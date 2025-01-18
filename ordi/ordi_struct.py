@@ -7,7 +7,15 @@ class Ordi:
     nb_parties: int = 0
 
 
-#OrdiMorpion
+#JoueurAllumettes
+class JoueurAllumettes:
+    nom: str
+    score: float = 0
+    nbAllumettes: int = 0
+    nbCoups: int = 0
+    difficultee: int = -1
+
+#JoueurMorpion
 class JoueurMorpion:
     nom: str
     score: float = 0

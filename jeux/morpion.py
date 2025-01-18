@@ -98,7 +98,7 @@ def morpion() -> None:
         vainqueur = ""
 
 
-    #Calcul du score
+    #Calcul des scores
     joueur1.score = calcul_score(vainqueur, joueur1.nom, joueur1.nbCoups)
     joueur2.score = calcul_score(vainqueur, joueur2.nom, joueur2.nbCoups)
 
