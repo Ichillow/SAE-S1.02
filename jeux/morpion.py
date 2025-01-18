@@ -6,6 +6,7 @@
 import sys
 sys.path.append("./")
 from typing import Union
+from time import sleep
 from utilitaires.utils import input_entier, login_joueur, clear_console, input_choix
 from utilitaires.gestion_db import sauvegarde_score_joueur, sauvegarde_score_ordi
 from ordi.ordi_struct import Ordi, JoueurMorpion
@@ -254,6 +255,10 @@ def tour_ordi(ordi: JoueurMorpion, grille: list[list[str]], adversaire: JoueurMo
     print()
     affichage_grille(grille)
     print()
+    
+
+    #Attente de l'ordinateur
+    sleep(1.5)
 
     #Modification de la grille
     if ordi.difficultee == 1:

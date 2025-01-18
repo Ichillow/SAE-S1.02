@@ -2,7 +2,6 @@ import sys
 sys.path.append("./")
 
 import random
-from time import sleep
 
 from ordi.ordi_struct import JoueurMorpion
 
@@ -18,9 +17,6 @@ def ordi_morpion_facile(ordi: JoueurMorpion, grille: list[list[str]]) -> list[li
     Returns:
         grille (list): La grille de jeu après le tour de jeu.
     """
-
-    #Pause d'une demi seconde
-    sleep(0.5)
 
     #Déclaration des variables
     choixLigne: int

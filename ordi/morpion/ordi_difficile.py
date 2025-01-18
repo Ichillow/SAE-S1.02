@@ -1,8 +1,6 @@
 import sys
 sys.path.append("./")
 
-from time import sleep
-
 from ordi.ordi_struct import JoueurMorpion
 from ordi.morpion.ordi_facile import ordi_morpion_facile
 
@@ -22,83 +20,57 @@ def ordi_morpion_difficile(ordi: JoueurMorpion, grille: list[list[str]], adversa
         list[list[str]]: La grille de jeu après le tour de l'ordinateur
     """
 
-    #Pause d'une demi seconde
-    sleep(0.5)
-
     #Déclaration des variables
     grille_temps: list[list[str]]
 
-    grille_temps = grille
+    grille_temps = []
+    grille_temps.append(grille[0].copy())
+    grille_temps.append(grille[1].copy())
+    grille_temps.append(grille[2].copy())
 
-
-
-
-    #On vérifie si l'ordinateur joue en premier
-    if ordi.nbCoups == adversaire.nbCoups:
-        grille = jouer_difficile(ordi, grille)
-    
-    #Si le joueur adverse joue en premier
-    else:
-        #On vérifie si l'ordinateur peut gagner en jouant
-        grille_temps = jouer_coup_gagnant(ordi, grille)
-
-        if grille_temps != grille:
-            grille = grille_temps
-
-        #Sinon, on cherche à bloquer le joueur adverse
-        else:
-            grille = jouer_bloquer(ordi, adversaire, grille)
-    
-    return grille
-
-
-def jouer_difficile(ordi: JoueurMorpion, grille: list[list[str]]) -> list[list[str]]:
-    """
-    Fonction qui permet à l'ordinateur de jouer au morpion en mode difficile
-    
-    Args:
-        ordi (JoueurMorpion): L'ordinateur qui joue
-        grille (list[list[str]]): La grille de jeu
-
-    Returns:
-        list[list[str]]: La grille de jeu après le tour de l'ordinateur
-    """
-
-    #Déclaration des variables
-    grille_temps: list[list[str]]
-
-    grille_temps = grille
 
     #Si on peut, on met un signe au milieu
-    if grille[1][1] == " ":
-        grille[1][1] = ordi.signe
-    
+    if grille_temps[1][1] == " ":
+        grille_temps[1][1] = ordi.signe
+
     #Sinon, on essaye de jouer un coups gagnant (si possible)
     else:
-        grille_temps = jouer_coup_gagnant(ordi, grille)
-        
-        #Sinon, on essaie de jouer un coup dans un coin
-        if grille[0][0] == " ":
-            grille[0][0] = ordi.signe
+        grille_temps = jouer_coup_gagnant(ordi, grille_temps)
 
-        elif grille[0][2] == " ":
-            grille[0][2] = ordi.signe
+        #Sinon, on essaye de bloquer le joueur adverse
+        if grille_temps == grille:
 
-        elif grille[2][0] == " ":
-            grille[2][0] = ordi.signe
+            print("Avant")
+            print(grille_temps)
+            print(grille)
+            grille_temps = jouer_bloquer(ordi, adversaire, grille_temps)
+            print("Après")
+            print(grille_temps)
+            print(grille)
 
-        elif grille[2][2] == " ":
-            grille[2][2] = ordi.signe
+            #Sinon, on rempli un coin
+            if grille_temps == grille:
 
-        else:
-            if grille_temps != grille:
-                grille = grille_temps
-            
-            #Sinon, on joue un coups aléatoire
-            else:
-                grille = ordi_morpion_facile(ordi, grille)
+                if grille_temps[0][0] == " ":
+                    grille_temps[0][0] = ordi.signe
+
+                elif grille_temps[0][2] == " ":
+                    grille_temps[0][2] = ordi.signe
+
+                elif grille_temps[2][0] == " ":
+                    grille_temps[2][0] = ordi.signe
+
+                elif grille_temps[2][2] == " ":
+                    grille_temps[2][2] = ordi.signe
+
+                #Sinon, on joue un coups aléatoire
+                else:
+                    grille_temps = ordi_morpion_facile(ordi, grille_temps)
+    
+    grille = grille_temps
 
     return grille
+
 
 
 
@@ -116,18 +88,28 @@ def jouer_coup_gagnant(ordi: JoueurMorpion, grille: list[list[str]]) -> list[lis
 
     #Déclaration des variables
     grille_temps: list[list[str]]
+    i_gagnant: int = -1
+    j_gagnant: int = -1
 
-    grille_temps = grille
+    grille_temps = []
+    grille_temps.append(grille[0].copy())
+    grille_temps.append(grille[1].copy())
+    grille_temps.append(grille[2].copy())
 
 
     #On vérifie si l'ordinateur peut gagner en jouant
     for i in range(3):
         for j in range(3):
-            if grille[i][j] == " ":
+            if grille_temps[i][j] == " ":
                 grille_temps[i][j] = ordi.signe
-                if verification_gagnant(ordi, grille):
-                    grille = grille_temps
+                if verification_gagnant(ordi, grille_temps):
+                    i_gagnant = i
+                    j_gagnant = j
                 grille_temps[i][j] = " "
+    
+    #Si l'ordinateur peut gagner, on joue
+    if i_gagnant != -1:
+        grille[i_gagnant][j_gagnant] = ordi.signe
 
     return grille
 
@@ -151,7 +133,10 @@ def jouer_bloquer(ordi: JoueurMorpion, adversaire: JoueurMorpion, grille: list[l
     j_gagant: int = -1
 
 
-    grille_temps = grille
+    grille_temps = []
+    grille_temps.append(grille[0].copy())
+    grille_temps.append(grille[1].copy())
+    grille_temps.append(grille[2].copy())
 
     #Vérification du joueur adverse
     for i in range(3):
@@ -166,8 +151,7 @@ def jouer_bloquer(ordi: JoueurMorpion, adversaire: JoueurMorpion, grille: list[l
     #Si le joueur adverse peut gagner, on bloque
     if i_gagant != -1:
         grille[i_gagant][j_gagant] = ordi.signe
-    else:
-        grille = jouer_difficile(ordi, grille)
+
     return grille
 
 
