@@ -25,6 +25,7 @@ def login_joueur(jeu: str) -> tuple[Union[str, Ordi], Union[str, Ordi]]:
     joueur1: Union[str, Ordi]
     joueur2: Union[str, Ordi]
     boucle: bool = True
+    choix: int
 
 
     #Effacement de la console
@@ -53,8 +54,14 @@ def login_joueur(jeu: str) -> tuple[Union[str, Ordi], Union[str, Ordi]]:
             print("/---------------------------------------\\")
             print("      Saisie des noms des joueurs")
             print()
-            joueur1 = saisie_nom_joueur(jeu)
-            joueur2 = saisie_nom_joueur(jeu)
+            if jeu == "devinettes":
+                print("Joueur qui veut faire deviner un nombre")
+                joueur1= saisie_nom_joueur(jeu)
+                print("Joueur qui veut deviner un nombre")
+                joueur2 = saisie_nom_joueur(jeu)
+            else:
+                joueur1 = saisie_nom_joueur(jeu)
+                joueur2 = saisie_nom_joueur(jeu)
             
             if joueur1 == joueur2:
                 clear_console()
@@ -65,10 +72,27 @@ def login_joueur(jeu: str) -> tuple[Union[str, Ordi], Union[str, Ordi]]:
         elif mode_jeu == 2:
             print("Mode de jeu : Joueur contre Ordinateur")
             print("/---------------------------------------\\")
-            print("      Saisie des noms des joueurs")
-            print()
-            joueur1 = saisie_nom_joueur(jeu)
-            joueur2 = saisie_nom_ordi(jeu)
+            if jeu == "devinettes":
+                print("Joueur, vous voulez :")
+                print("1. Deviner un nombre")
+                print("2. Faire deviner un nombre")
+                print()
+                choix = input_entier(1, 2, "Saisir le numéro de votre choix : ", "Veuillez saisir un numéro valide : ")
+                if choix == 1:
+                    print("      Saisie des noms des joueurs")
+                    print()
+                    joueur1 = saisie_nom_ordi(jeu)
+                    joueur2 = saisie_nom_joueur(jeu)
+                elif choix == 2:
+                    print("      Saisie des noms des joueurs")
+                    print()
+                    joueur1 = saisie_nom_joueur(jeu)
+                    joueur2 = saisie_nom_ordi(jeu)
+            else:
+                print("      Saisie des noms des joueurs")
+                print()
+                joueur1 = saisie_nom_joueur(jeu)
+                joueur2 = saisie_nom_ordi(jeu)
 
             boucle = False
 

@@ -1,39 +1,43 @@
+########################################################################################
+#Ce fichier contient l'ordinateur facile du jeu des devinettes
+########################################################################################
+
+
 import sys, random
 sys.path.append("./")
 
 from ordi.ordi_struct import JoueursDevinette
 
-def ordi_cherche_facile(ordi: JoueursDevinette, limite: int, réponse: int, proposition : int) -> int:
+def ordi_cherche_facile(ordi : JoueursDevinette,borne_min: int, borne_max: int, limite:int, réponse: int, proposition: int) -> tuple[int, int, int]:
     """
     Cette fonction permet de jouer au jeu de la devinette avec l'ordinateur en mode facile.
 
+
     Args:
-        ordi (OrdiDevinette1): L'ordinateur qui joue.
-        limite (int): La limite de la devinette.
+        borne_min (int): La borne inférieure pour les propositions.
+        borne_max (int): La borne supérieure pour les propositions.
+        réponse (int): Indique si la dernière proposition était trop grande (2), trop petite (1), ou correcte (0).
+        proposition (int): Dernière proposition effectuée par le bot.
 
     Returns:
-        (None): Cette fonction ne retourne rien.
+        tuple[int, int, int]: La nouvelle proposition, la borne inférieure mise à jour, et la borne supérieure mise à jour.
     """
-    #Déclaration des variables
-    trop_grand: bool
-    trop_petit: bool
-
-    #Initialisation des variables
-    trop_grand = False
-    trop_petit = False
-
-    if réponse == 0:
+    if réponse == 1:  # Trop petit
+        borne_min = max(borne_min, proposition + 1)
+    elif réponse == 2:  # Trop grand
+        borne_max = min(borne_max, proposition - 1)
+    elif réponse == 0:
         proposition = random.randint(1, limite)
-    elif réponse == 1 :
-        trop_petit = True
-    else:
-        trop_grand = True
 
 
-    if trop_petit :
-        proposition = random.randint(proposition, limite)
-    elif trop_grand :
-        proposition = random.randint(1, proposition)
+    # Nouvelle proposition : mélange d'aléatoire et de stratégie
+    if borne_min <= borne_max:
+        if random.random() < 0.6:
+            proposition = (borne_min + borne_max) // 2  # Stratégie : choisir au milieu
+        else:
+            proposition = random.randint(borne_min, borne_max)  # Choix aléatoire
+    elif borne_min > borne_max:
+        proposition = -1  # Cas où les bornes sont incohérentes
 
-    return proposition
 
+    return proposition, borne_min, borne_max

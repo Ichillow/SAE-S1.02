@@ -24,7 +24,7 @@ class JoueurMorpion:
     difficultee: int = -1
 
 
-#OrdiDevinette(Fait deviner)
+#OrdiDevinette
 class JoueursDevinette:
     nom: str
     difficultee: int = -1
