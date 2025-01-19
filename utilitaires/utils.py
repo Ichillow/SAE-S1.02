@@ -103,7 +103,7 @@ def saisie_nom_joueur(jeu: str) -> str:
     #Déclaration des variables
     nom_joueur: str
     boucle: bool = True
-    lst_joueurs: list[tuple[int, str, int, int, int, int]] = charger_joueurs_jeu(jeu)
+    lst_joueurs: list[tuple[int, str, float, float, float, int]] = charger_joueurs_jeu(jeu)
     i: int
     choix: str = "o"
 
@@ -150,7 +150,7 @@ def saisie_nom_ordi(jeu: str) -> Ordi:
     """
     #Déclaration des variables
     num_ordi: int
-    ordis: list[tuple[int, str, int, int, int]] = charger_ordi_jeu(jeu, False)
+    ordis: list[tuple[int, str, int, float, int]] = charger_ordi_jeu(jeu, False)
     ordi_return: Ordi = Ordi()
 
     #Affichage des nom des ordinateurs

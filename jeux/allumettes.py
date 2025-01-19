@@ -17,7 +17,7 @@ from ordi.allumettes.ordi_difficile import ordi_allumettes_difficile
 
 
 #Programme principal du jeu
-def allumettes() -> None:
+def allumettes(info_benckmarck: tuple[Ordi, Ordi]) -> tuple[float, float, str]:
     """
     Cette fonction est la fonction principale du jeu des allumettes. Elle permet de jouer à ce jeu.
 
@@ -35,7 +35,9 @@ def allumettes() -> None:
     recupInfo: tuple[Union[str, Ordi], Union[str, Ordi]]
 
     #Récupération des informations des joueurs
-    recupInfo = login_joueur("allumettes")
+    #recupInfo = login_joueur("allumettes")
+
+    recupInfo = info_benckmarck
 
     #Vérification du type de joueur et initialisation
     if isinstance(recupInfo[0], str):
@@ -128,6 +130,8 @@ def allumettes() -> None:
     else:
         sauvegarde_score_ordi("allumettes", joueur2.nom, joueur2.score)
 
+    return (joueur1.score, joueur2.score, vainqueur)
+
 
 
 
@@ -207,7 +211,8 @@ def tour_ordi(joueur:JoueurAllumettes, nbrAllumettes:int) -> int:
     print(f"{joueur.nom} c'est à votre tour.")
     print(f"Il reste {nbrAllumettes} allumettes.")
     print("L'ordinateur réfléchit...")
-    sleep(2)
+    #sleep(2)
+
     if joueur.difficultee == 1:
         choix = ordi_allumettes_facile(nbrAllumettes)
     elif joueur.difficultee == 2:
@@ -216,5 +221,3 @@ def tour_ordi(joueur:JoueurAllumettes, nbrAllumettes:int) -> int:
         choix = ordi_allumettes_difficile(nbrAllumettes)
 
     return choix
-
-allumettes()

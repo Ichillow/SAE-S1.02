@@ -15,7 +15,7 @@ from ordi.morpion.ordi_normal import ordi_morpion_normal
 from ordi.morpion.ordi_facile import ordi_morpion_facile
 
 #Programme principal du jeu
-def morpion() -> None:
+def morpion(info_benckmarck: tuple[Ordi, Ordi]) -> tuple[float, float, str]:
     """
     Cette fonction est la fonction principale du jeu du morpion. Elle permet de jouer à ce jeu.
 
@@ -35,7 +35,11 @@ def morpion() -> None:
     recupInfo: tuple[Union[str, Ordi], Union[str, Ordi]]
 
     #Récupération des informations des joueurs
-    recupInfo = login_joueur("morpion")
+    #recupInfo = login_joueur("morpion")
+
+    recupInfo = info_benckmarck
+
+
 
 
     #Vérification du type de joueur et initialisation
@@ -61,7 +65,8 @@ def morpion() -> None:
 
     #Initialisation du jeu
 
-    joueur1.signe = input_choix(["X", "O"], f"Veuillez choisir un signe pour {joueur1.nom} (X, O) : ", f"Veuillez choisir un signe pour {joueur1.nom} (X, O) : ").capitalize()
+    #joueur1.signe = input_choix(["X", "O"], f"Veuillez choisir un signe pour {joueur1.nom} (X, O) : ", f"Veuillez choisir un signe pour {joueur1.nom} (X, O) : ").capitalize()
+    joueur1.signe = "X"
     joueur2.signe = "X" if joueur1.signe == "O" else "O"
 
     #Début du jeu
@@ -137,6 +142,8 @@ def morpion() -> None:
     print(f"Score de {joueur2.nom} : {joueur2.score}")
     print()
     print("\\-----------------------------------------------------------/")
+
+    return (joueur1.score, joueur2.score, vainqueur)
 
 
 
@@ -258,7 +265,7 @@ def tour_ordi(ordi: JoueurMorpion, grille: list[list[str]], adversaire: JoueurMo
     
 
     #Attente de l'ordinateur
-    sleep(1.5)
+    #sleep(1.5)
 
     #Modification de la grille
     if ordi.difficultee == 1:
@@ -269,9 +276,6 @@ def tour_ordi(ordi: JoueurMorpion, grille: list[list[str]], adversaire: JoueurMo
         grille = ordi_morpion_difficile(ordi, grille, adversaire)
 
     return grille
-
-
-
 
 
 
@@ -311,7 +315,3 @@ def verification_jeu_continue(grille: list[list[str]]) -> bool:
         boucle = False
 
     return boucle
-
-
-
-morpion()
