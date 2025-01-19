@@ -15,7 +15,7 @@ from ordi.morpion.ordi_normal import ordi_morpion_normal
 from ordi.morpion.ordi_facile import ordi_morpion_facile
 
 #Programme principal du jeu
-def morpion(info_benckmarck: tuple[Ordi, Ordi]) -> tuple[float, float, str]:
+def morpion() -> None:
     """
     Cette fonction est la fonction principale du jeu du morpion. Elle permet de jouer à ce jeu.
 
@@ -35,11 +35,7 @@ def morpion(info_benckmarck: tuple[Ordi, Ordi]) -> tuple[float, float, str]:
     recupInfo: tuple[Union[str, Ordi], Union[str, Ordi]]
 
     #Récupération des informations des joueurs
-    #recupInfo = login_joueur("morpion")
-
-    recupInfo = info_benckmarck
-
-
+    recupInfo = login_joueur("morpion")
 
 
     #Vérification du type de joueur et initialisation
@@ -65,8 +61,7 @@ def morpion(info_benckmarck: tuple[Ordi, Ordi]) -> tuple[float, float, str]:
 
     #Initialisation du jeu
 
-    #joueur1.signe = input_choix(["X", "O"], f"Veuillez choisir un signe pour {joueur1.nom} (X, O) : ", f"Veuillez choisir un signe pour {joueur1.nom} (X, O) : ").capitalize()
-    joueur1.signe = "X"
+    joueur1.signe = input_choix(["X", "O"], f"Veuillez choisir un signe pour {joueur1.nom} (X, O) : ", f"Veuillez choisir un signe pour {joueur1.nom} (X, O) : ").capitalize()
     joueur2.signe = "X" if joueur1.signe == "O" else "O"
 
     #Début du jeu
@@ -143,7 +138,7 @@ def morpion(info_benckmarck: tuple[Ordi, Ordi]) -> tuple[float, float, str]:
     print()
     print("\\-----------------------------------------------------------/")
 
-    return (joueur1.score, joueur2.score, vainqueur)
+    return None
 
 
 
@@ -265,7 +260,7 @@ def tour_ordi(ordi: JoueurMorpion, grille: list[list[str]], adversaire: JoueurMo
     
 
     #Attente de l'ordinateur
-    #sleep(1.5)
+    sleep(1)
 
     #Modification de la grille
     if ordi.difficultee == 1:

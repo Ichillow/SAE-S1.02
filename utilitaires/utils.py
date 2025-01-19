@@ -155,7 +155,7 @@ def saisie_nom_joueur(jeu: str) -> str:
                 print(f"Score aux devinettes : {lst_joueurs[i][4]}")
                 print(f"Nombre de parties : {lst_joueurs[i][5]}")
                 print()
-                choix = input_choix(["o", "n"], "Voulez-vous continuer avec ce nom ? (O/n) : ", "Veuillez saisir un choix valide : ")
+                choix = input_choix(["o", "n"], "Voulez-vous continuer avec ce nom ? (o/n) : ", "Veuillez saisir un choix valide : ")
                 i = len(lst_joueurs)
             else:
                 i += 1
