@@ -13,7 +13,7 @@ def ordi_réponse(ordi:JoueursDevinette, limite : int, proposition : int, nombre
     Cette fonction permet à l'ordinateur de répondre à l'autre joueur dans le jeu de la devinette
 
     Args:
-        ordi (OrdiDevinette1): L'ordinateur qui répond.
+        ordi (JoueursDevinette): L'ordinateur qui joue.
         limite (int): La limite de la devinette.
         proposition (int): La proposition de l'autre joueur.
         nombre (int): Le nombre à deviner.
@@ -22,9 +22,11 @@ def ordi_réponse(ordi:JoueursDevinette, limite : int, proposition : int, nombre
     Returns:
         tuple[int,int]: Un tuple contenant le choix de l'ordinateur et le nombre
     """
+    #Déclaration des variables
     choix : int 
     choix = 0
 
+    #Choix de l'ordinateur
     if nombre > proposition:
         choix = 1
     elif nombre < proposition and nombre != -1:
@@ -35,4 +37,5 @@ def ordi_réponse(ordi:JoueursDevinette, limite : int, proposition : int, nombre
         nombre = random.randint(1,limite)
     else :
         print("Erreur de choix")
+
     return choix, nombre

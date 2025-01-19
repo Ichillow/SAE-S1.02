@@ -101,8 +101,14 @@ def login_joueur(jeu: str) -> tuple[Union[str, Ordi], Union[str, Ordi]]:
             print("/---------------------------------------\\")
             print("      Saisie des noms des ordinateurs")
             print()
-            joueur1 = saisie_nom_ordi(jeu)
-            joueur2 = saisie_nom_ordi(jeu)
+            if jeu == "devinettes":
+                print("Ordinateur qui va faire deviner un nombre")
+                joueur1 = saisie_nom_ordi(jeu)
+                print("Ordinateur qui va deviner un nombre")
+                joueur2 = saisie_nom_ordi(jeu)
+            else:
+                joueur1 = saisie_nom_ordi(jeu)
+                joueur2 = saisie_nom_ordi(jeu)
 
             if joueur1.nom == joueur2.nom:
                 clear_console()

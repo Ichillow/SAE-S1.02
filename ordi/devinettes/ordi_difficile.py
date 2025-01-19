@@ -2,16 +2,17 @@
 #Ce fichier contient l'ordinateur difficile du jeu des devinettes
 ########################################################################################
 
-import sys, random
+import sys
 sys.path.append("./")
 
 from ordi.ordi_struct import JoueursDevinette
 
-def ordi_cherche_difficile(limite: int, proposition: int, borne_min: int, borne_max: int, reponse: int) -> tuple[int, int, int]:
+def ordi_cherche_difficile(ordi : JoueursDevinette, borne_min: int, borne_max: int, limite: int, reponse: int,  proposition: int ) -> tuple[int, int, int]:
     """
     Cette fonction permet de jouer au jeu de la devinette avec l'ordinateur en mode difficile.
 
-Args:
+    Args:
+        ordi (JoueursDevinette): L'ordinateur qui joue.
         limite (int): La limite supérieure du jeu.
         proposition (int): Dernière proposition du bot.
         borne_min (int): La borne inférieure de l'intervalle. (par défaut : 1)
@@ -28,7 +29,7 @@ Args:
     elif reponse == 2:  # Trop grand
         borne_max = min(borne_max, proposition - 1)
 
-    # Nouvelle proposition basée sur la recherche dichotomique
+    # Proposition basée sur la recherche dichotomique
     proposition = (borne_min + borne_max) // 2
 
     return proposition, borne_min, borne_max

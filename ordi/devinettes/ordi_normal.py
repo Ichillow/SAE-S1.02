@@ -12,6 +12,7 @@ def ordi_cherche_normal(ordi : JoueursDevinette, borne_min: int, borne_max: int,
     Cette fonction permet de jouer au jeu de la devinette avec l'ordinateur en mode normal.
 
     Args:
+        ordi (OrdiDevinette): L'ordinateur qui joue.
         borne_min (int): La borne inférieure pour les propositions.
         borne_max (int): La borne supérieure pour les propositions.
         réponse (int): Indique si la dernière proposition était trop grande (2), trop petite (1), ou correcte (0).
@@ -27,7 +28,7 @@ def ordi_cherche_normal(ordi : JoueursDevinette, borne_min: int, borne_max: int,
 
     # Nouvelle proposition : mélange d'aléatoire et de stratégie
     if borne_min <= borne_max:
-        if random.random() < 0.6:
+        if random.random() < 0.4:
             proposition = (borne_min + borne_max) // 2  # Stratégie : choisir au milieu
         else:
             proposition = random.randint(borne_min, borne_max)  # Choix aléatoire

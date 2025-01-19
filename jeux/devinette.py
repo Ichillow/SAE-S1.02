@@ -6,7 +6,7 @@
 import sys
 sys.path.append("./")
 from utilitaires.utils import input_entier, login_joueur, clear_console
-from utilitaires.gestion_db import sauvegarde_score_joueur, sauvegarde_score_ordi, charger_ordi_jeu
+from utilitaires.gestion_db import sauvegarde_score_joueur, sauvegarde_score_ordi
 from typing import Union
 from ordi.ordi_struct import Ordi, JoueursDevinette
 #importation des ordinateurs
@@ -15,7 +15,7 @@ from ordi.devinettes.ordi_normal import ordi_cherche_normal
 from ordi.devinettes.ordi_difficile import ordi_cherche_difficile
 from ordi.devinettes.ordi_réponse import ordi_réponse
 
-def devinette() ->int:
+def devinette():
     """
     Cette fonction est la fonction principale du jeu de la devinette. Elle permet de jouer à ce jeu.
 
@@ -93,7 +93,6 @@ def devinette() ->int:
 
     while limite<=0 or limite==1 :
         limite = int(input("Erreur veuillez entrer une limite valide : "))
-
     borne_inf = 1
     borne_sup = limite
 
@@ -125,7 +124,7 @@ def devinette() ->int:
             proposition, borne_inf, borne_sup = ordi_cherche_normal(joueur2, borne_inf, borne_sup, limite, choix, proposition)
         #Proposition de l'ordi difficile
         else :
-            proposition, borne_inf, borne_sup = ordi_cherche_difficile(limite, proposition, borne_inf, borne_sup, choix)
+            proposition, borne_inf, borne_sup = ordi_cherche_difficile(joueur2, borne_inf, borne_sup, limite, choix,  proposition )
 
 
         coup = coup+1
@@ -211,7 +210,7 @@ def devinette() ->int:
         sauvegarde_score_joueur("devinettes", joueur2.nom, scoreJ2)
     else:
         sauvegarde_score_ordi("devinettes", joueur2.nom, scoreJ2)
-    return coup
+    return None
 
 
 def réponse(joueur1:str, joueur2:str) ->int :
@@ -301,24 +300,3 @@ def Calcul_ScoreJ2(coups:int, limite:int) ->int :
     return max(0, score)
 
 
-
-
-def benchmark():
-    """
-    Cette fonction permet de tester la fonction devinette
-
-    Args:
-        (None): Aucun argument n'est nécessaire pour cette fonction.
-
-    Returns:
-        (None): Cette fonction ne retourne rien.
-    """
-    ordisDevinette: list[tuple[int, str, int, float, int]] = charger_ordi_jeu("devinettes", False)
-
-    chemin_facile = "./benchmark/devinette_facile.txt"
-    for i in range(1000):
-        coups = devinette()
-        with open(chemin_facile, "w") as fichier:
-            fichier.write(f"Partie {i+1} : {coups} coups\n")
-
-benchmark()
