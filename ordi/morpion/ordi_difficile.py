@@ -40,13 +40,7 @@ def ordi_morpion_difficile(ordi: JoueurMorpion, grille: list[list[str]], adversa
         #Sinon, on essaye de bloquer le joueur adverse
         if grille_temps == grille:
 
-            print("Avant")
-            print(grille_temps)
-            print(grille)
             grille_temps = jouer_bloquer(ordi, adversaire, grille_temps)
-            print("Après")
-            print(grille_temps)
-            print(grille)
 
             #Sinon, on rempli un coin
             if grille_temps == grille:
