@@ -13,11 +13,13 @@ def ordi_cherche_difficile(ordi : JoueursDevinette, borne_min: int, borne_max: i
 
     Args:
         ordi (JoueursDevinette): L'ordinateur qui joue.
-        limite (int): La limite supérieure du jeu.
-        proposition (int): Dernière proposition du bot.
         borne_min (int): La borne inférieure de l'intervalle. (par défaut : 1)
         borne_max (int): La borne supérieure de l'intervalle. (par défaut : None, sera initialisé à limite)
+        limite (int): La limite supérieure du jeu.
         réponse (int): La réponse donnée par l'utilisateur (1 = trop petit, 2 = trop grand, 3 = trouvé).
+        proposition (int): Dernière proposition du bot.
+
+
 
     Returns:
         tuple: (proposition (int), borne_min (int), borne_max (int)) - La nouvelle proposition et les bornes mises à jour.

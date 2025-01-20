@@ -25,6 +25,8 @@ def ordi_cherche_normal(ordi : JoueursDevinette, borne_min: int, borne_max: int,
         borne_min = max(borne_min, proposition + 1)
     elif réponse == 2:  # Trop grand
         borne_max = min(borne_max, proposition - 1)
+    elif réponse == 0: #Début de la partie (première proposition)
+        proposition = random.randint(1, limite)
 
     # Nouvelle proposition : mélange d'aléatoire et de stratégie
     if borne_min <= borne_max:
@@ -33,6 +35,8 @@ def ordi_cherche_normal(ordi : JoueursDevinette, borne_min: int, borne_max: int,
         else:
             proposition = random.randint(borne_min, borne_max)  # Choix aléatoire
     else:
+        print("Erreur de bornes")
         proposition = -1  # Cas où les bornes sont incohérentes
 
     return proposition, borne_min, borne_max
+

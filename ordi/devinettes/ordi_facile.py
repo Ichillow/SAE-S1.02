@@ -23,11 +23,13 @@ def ordi_cherche_facile(ordi : JoueursDevinette,borne_min: int, borne_max: int, 
     Returns:
         tuple[int, int, int]: La nouvelle proposition, la borne inférieure mise à jour, et la borne supérieure mise à jour.
     """
+
+    # Mise à jour des bornes en fonction de la réponse
     if réponse == 1:  # Trop petit
         borne_min = max(borne_min, proposition + 1)
     elif réponse == 2:  # Trop grand
         borne_max = min(borne_max, proposition - 1)
-    elif réponse == 0:
+    elif réponse == 0: #Début de la partie (première proposition)
         proposition = random.randint(1, limite)
 
 
@@ -38,6 +40,7 @@ def ordi_cherche_facile(ordi : JoueursDevinette,borne_min: int, borne_max: int, 
         else:
             proposition = random.randint(borne_min, borne_max)  # Choix aléatoire
     elif borne_min > borne_max:
+        print("Erreur de bornes")
         proposition = -1  # Cas où les bornes sont incohérentes
 
 

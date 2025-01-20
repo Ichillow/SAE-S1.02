@@ -93,12 +93,14 @@ def devinette():
 
     while limite<=0 or limite==1 :
         limite = int(input("Erreur veuillez entrer une limite valide : "))
+    
+    #Initialisation des bornes
     borne_inf = 1
     borne_sup = limite
 
     #Initialisation du nombre à trouver
     if joueur1.difficultee == -1 :
-        nombre = input_entier(0, limite, f"{joueur1.nom} entrez votre nombre et souvenez vous en : ", "Erreur, votre nombre est supérieur à la limite, veuillez saisir un nombre valide : ") 
+        nombre = input_entier(0, limite, f"{joueur1.nom} entrez votre nombre et souvenez vous en : ", "Erreur, votre nombre est supérieur à la limite, veuillez saisir un nombre valide : ")
     else :
         _, nombre = ordi_réponse(joueur1, limite, proposition, nombre, joueur2)    
     
@@ -126,7 +128,7 @@ def devinette():
         else :
             proposition, borne_inf, borne_sup = ordi_cherche_difficile(joueur2, borne_inf, borne_sup, limite, choix,  proposition )
 
-
+        #Incrémentation du nombre de coups
         coup = coup+1
 
         #Initialisation du tour du joueur 1

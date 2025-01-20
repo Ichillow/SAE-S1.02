@@ -27,15 +27,17 @@ def ordi_réponse(ordi:JoueursDevinette, limite : int, proposition : int, nombre
     choix = 0
 
     #Choix de l'ordinateur
-    if nombre > proposition:
+    if nombre > proposition: #La proposition est trop petite
         choix = 1
-    elif nombre < proposition and nombre != -1:
+    elif nombre < proposition and nombre != -1: #La proposition est trop grande
         choix = 2
-    elif nombre == proposition :
+    elif nombre == proposition : #La proposition est correcte
         choix = 3
-    elif nombre == -1:
+    elif nombre == -1: #Choix du nombre à deviner
         nombre = random.randint(1,limite)
-    else :
+    else : #Erreur de choix
         print("Erreur de choix")
 
     return choix, nombre
+
+
