@@ -323,5 +323,3 @@ def reset_db() -> None:
     deconnection(conn)
 
     create_table()
-
-
